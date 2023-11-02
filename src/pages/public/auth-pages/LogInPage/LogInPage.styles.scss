@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Signika:wght@700&display=swap");
+
+.login-page {
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  color: rgb(13, 13, 13);
+
+  header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    min-height: 80vh;
+  }
+
+  h2 {
+    max-width: 400px;
+  }
+  p {
+    max-width: 600px;
+    color: rgba(38, 38, 38, 0.7);
+  }
+
+  h1 {
+    font-size: 3rem;
+    font-weight: 100;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 3rem;
+    opacity: 1;
+    color: rgba(35, 35, 35, 1);
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin: 0;
+    padding: 0;
+    line-height: 1.1;
+  }
+
+  p {
+    margin-bottom: 3rem;
+  }
+
+  .background-video {
+    position: fixed;
+    z-index: -1;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    content: "";
+
+    &:before {
+      position: fixed;
+      z-index: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      content: "";
+      background: linear-gradient(
+        -125deg,
+        rgba(255, 255, 255, 0.7) 0%,
+        rgba(255, 255, 255, 1) 50%
+      );
+    }
+
+    video {
+      width: 100vw;
+
+      height: 100vh;
+      object-fit: cover;
+    }
+  }
+}

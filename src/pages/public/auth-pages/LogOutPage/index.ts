@@ -1,0 +1,1 @@
+export { LogOutPage } from "./LogOutPage";
