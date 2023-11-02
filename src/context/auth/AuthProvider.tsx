@@ -5,7 +5,6 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   setPersistence,
-  signInAnonymously,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";

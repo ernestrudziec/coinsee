@@ -125,8 +125,8 @@ export const DashboardTable = () => {
 
   const {
     data: dataQuery,
-    loading,
-    error,
+    // loading,
+    // error,
   } = useQuery(GET_COINS, {
     variables: {
       first: coinsCount,
