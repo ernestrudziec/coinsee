@@ -8,7 +8,7 @@ import { useAuth } from "../../../../context/auth/useAuth";
 import { RequestStatus } from "../../../../context/auth/constants";
 import { PrivateRoutePath } from "../../../../router/routes";
 
-import "./LoginPage.styles.scss";
+import "./LogInPage.styles.scss";
 
 export const LogInPage = () => {
   const {
