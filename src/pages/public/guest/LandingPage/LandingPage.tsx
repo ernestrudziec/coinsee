@@ -2,6 +2,7 @@ import { Button } from "antd";
 import "./LandingPage.styles.scss";
 import { PublicRoutePath } from "../../../../router/routes";
 import backgroundVideo from "../../../../assets/background.mp4";
+import { Logo } from "../../../../components/common/Logo";
 
 export const LandingPage = () => {
   return (
@@ -12,7 +13,7 @@ export const LandingPage = () => {
             <source src={backgroundVideo} type="video/mp4" />
           </video>
         </div>
-        <h1>coinsee.</h1>
+        <Logo color="black" width={200} style={{ marginBottom: 30 }} />
         <h2>
           Track and <span style={{ color: "#1677ff" }}>Analyze </span>
           Your&nbsp;Cryptocurrency Portfolio

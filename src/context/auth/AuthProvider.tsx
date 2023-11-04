@@ -12,6 +12,7 @@ import {
 import { auth } from "../../firebase/setup";
 import { AuthContext } from "./AuthContext";
 import { RequestStatus } from "./constants";
+import { createUserProfile } from "../../firebase/api/createUserProfile";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -49,7 +50,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       setSignUpStatus(RequestStatus.PENDING);
       setSignUpError(null);
-      await createUserWithEmailAndPassword(auth, email, password);
+
+      const credentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      await createUserProfile({
+        email,
+        uid: credentials?.user?.uid,
+      });
+
       setSignUpStatus(RequestStatus.SUCCESS);
     } catch (err) {
       setSignUpError((err as Error).message);

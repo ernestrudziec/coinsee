@@ -9,6 +9,7 @@ import { RequestStatus } from "../../../../context/auth/constants";
 import { PrivateRoutePath } from "../../../../router/routes";
 
 import "./LogInPage.styles.scss";
+import { Logo } from "../../../../components/common/Logo";
 
 export const LogInPage = () => {
   const {
@@ -44,7 +45,7 @@ export const LogInPage = () => {
             <source src={backgroundVideo} type="video/mp4" />
           </video>
         </div>
-        <h1>coinsee.</h1>
+        <Logo color="black" size="small" style={{ marginBottom: 60 }} />
         <h2>Login</h2>
         <p>
           Stay up-to-date with the latest cryptocurrency prices, manage your

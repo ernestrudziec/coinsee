@@ -1,14 +1,8 @@
 import { Button, Flex, Result } from "antd";
-import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { PublicRoutePath } from "../../../../router/routes";
 
 export const ErrorPage = () => {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    navigate(PublicRoutePath.ERROR);
-  }, [navigate]);
 
   return (
     <Flex

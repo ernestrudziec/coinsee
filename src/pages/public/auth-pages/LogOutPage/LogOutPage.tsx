@@ -7,6 +7,7 @@ import { useAuth } from "../../../../context/auth/useAuth";
 import { PublicRoutePath } from "../../../../router/routes";
 
 import "./LogOutPage.styles.scss";
+import { Logo } from "../../../../components/common/Logo";
 
 export const LogOutPage = () => {
   const {
@@ -26,7 +27,7 @@ export const LogOutPage = () => {
             <source src={backgroundVideo} type="video/mp4" />
           </video>
         </div>
-        <h1>coinsee.</h1>
+        <Logo color="black" size="small" style={{ marginBottom: 60 }} />
         <h2>Log out</h2>
         <p>You've successfully log out!</p>
 

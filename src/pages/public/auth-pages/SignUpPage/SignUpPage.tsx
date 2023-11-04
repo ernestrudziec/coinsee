@@ -6,6 +6,7 @@ import { useAuth } from "../../../../context/auth/useAuth";
 import { useEffect } from "react";
 import { RequestStatus } from "../../../../context/auth/constants";
 import { PrivateRoutePath } from "../../../../router/routes";
+import { Logo } from "../../../../components/common/Logo";
 
 export const SignUpPage = () => {
   const {
@@ -41,7 +42,7 @@ export const SignUpPage = () => {
             <source src={backgroundVideo} type="video/mp4" />
           </video>
         </div>
-        <h1>coinsee.</h1>
+        <Logo color="black" size="small" style={{ marginBottom: 60 }} />
 
         {status === RequestStatus.SUCCESS ? (
           <Result
