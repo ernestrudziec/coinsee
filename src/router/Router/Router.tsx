@@ -6,15 +6,9 @@ import { PrivateRoute } from "../components/PrivateRoute";
 import { RouterPrivacy } from "../routes";
 import { useAuth } from "../../context/auth/useAuth";
 import { router } from "..";
-import { useEffect } from "react";
+import { PublicRoute } from "../components/PublicRoute";
 
 export const Router = () => {
-  const { currentUser } = useAuth();
-
-  useEffect(() => {
-    console.log({ currentUser });
-  }, [currentUser]);
-
   return (
     <Routes>
       <Route>
@@ -42,7 +36,15 @@ export const Router = () => {
 
         {router.map(({ path, element: Component, privacy }) =>
           privacy === RouterPrivacy.PUBLIC ? (
-            <Route key={path} path={path} element={<Component />} />
+            <Route
+              key={path}
+              path={path}
+              element={
+                <PublicRoute>
+                  <Component />
+                </PublicRoute>
+              }
+            />
           ) : null
         )}
 

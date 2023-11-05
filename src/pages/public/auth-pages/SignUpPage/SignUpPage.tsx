@@ -24,10 +24,6 @@ export const SignUpPage = () => {
     console.log("Failed:", errorInfo);
   };
 
-  useEffect(() => {
-    console.log({ error, status });
-  }, [error, status]);
-
   type FieldType = {
     email?: string;
     password?: string;

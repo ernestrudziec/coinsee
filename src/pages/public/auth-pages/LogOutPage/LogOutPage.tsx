@@ -15,7 +15,6 @@ export const LogOutPage = () => {
   } = useAuth();
 
   useEffect(() => {
-    console.log({ error, status });
     execute();
   }, [error, execute, status]);
 

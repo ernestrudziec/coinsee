@@ -22,7 +22,6 @@ import { footerMenuConfig, menuConfig } from "./config";
 import { useCurrentRoute } from "../../router/hooks/useCurrentRoute";
 import { PrivateRoutePath } from "../../router/routes";
 import { useAuth } from "../../context/auth/useAuth";
-import { getFirestoreData } from "../../firebase/utils";
 
 const { Header, Content, Footer, Sider } = AntDLayout;
 
@@ -41,16 +40,7 @@ export const Layout = ({ children }: LayoutProps) => {
   const currentRoute = useCurrentRoute() || null;
   const currentRouteKey = currentRoute?.key || "";
 
-  const currentUser = useAuth();
-
-  const userData = getFirestoreData({
-    collectionName: "users",
-    document: currentUser?.currentUser?.uid,
-  });
-
-  useEffect(() => {
-    console.log({ currentUser, userData });
-  }, [currentUser, userData]);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     screens.lg && setCollapsed(false);
@@ -165,7 +155,7 @@ export const Layout = ({ children }: LayoutProps) => {
             >
               {currentRoute?.title}
             </Typography>
-            {currentUser?.currentUser?.email ? (
+            {currentUser?.email ? (
               <Tooltip title="My profile">
                 <Button
                   href={PrivateRoutePath.MY_PROFILE}
@@ -180,7 +170,7 @@ export const Layout = ({ children }: LayoutProps) => {
                   >
                     {screens.lg && (
                       <Typography style={{ color: "white", marginRight: 8 }}>
-                        {currentUser?.currentUser?.email}
+                        {currentUser?.email}
                       </Typography>
                     )}
                     <UserOutlined />

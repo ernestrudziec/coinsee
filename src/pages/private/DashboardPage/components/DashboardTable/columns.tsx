@@ -4,8 +4,8 @@ import currency from "currency.js";
 import { Coin } from "./types";
 import { Flex, Tooltip, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { ChangeCell } from "../common/cells/ChangeCell";
-import { IconCell } from "../common/cells/IconCell";
+import { ChangeCell } from "../../../../../components/common/cells/ChangeCell";
+import { IconCell } from "../../../../../components/common/cells/IconCell";
 export type GetColumnsParams = {
   isMobile: boolean;
   onAddClick: ({ data }: { data: Coin }) => void;
@@ -25,8 +25,8 @@ export const getColumns = ({
       width: 60,
       render: (rank, coin) => {
         return (
-          <Flex justify="flex-start" align="center">
-            <Tooltip title="Add to portfolio">
+          <Flex justify="flex-start" dir="column" align="center">
+            <Tooltip title="Add transaction">
               <Button
                 shape="circle"
                 size="small"

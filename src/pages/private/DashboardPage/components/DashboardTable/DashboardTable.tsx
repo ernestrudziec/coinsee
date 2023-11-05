@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from "@apollo/client";
 import { Spin, Table } from "antd";
-import { GET_COINS } from "../../graphql/queries";
-import { useSort } from "../../hooks/useSort";
+import { GET_COINS } from "../../../../../graphql/queries";
+import { useSort } from "../../../../../hooks/useSort";
 
-import { SORTING_STATE } from "../../utils/config";
-import { SORTING_DIR } from "../../constants/constants";
-import { useBreakpoint } from "../../hooks/useBreakpoint";
-import { AddToPortfolioModal } from "../common/modals/AddToPortfolioModal";
+import { SORTING_STATE } from "../../../../../utils/config";
+import { SORTING_DIR } from "../../../../../constants/constants";
+import { useBreakpoint } from "../../../../../hooks/useBreakpoint";
+import { AddTransactionModal } from "../../../../../components/common/modals/AddTransactionModal";
 import { useState } from "react";
 import { Coin } from "./types";
 import { getColumns } from "./columns";
@@ -40,7 +40,6 @@ export const DashboardTable = () => {
   };
 
   const handleTableChange = (pagination: any, filters: any, sorter: any) => {
-    console.log({ pagination, filters, sorter });
     switchSortingState(sorter.order ? sorter.field : SORTING_STATE.rank);
     switchSortingDir(
       sorter.order ? sorter.order + "ing" : SORTING_DIR.descending
@@ -70,7 +69,7 @@ export const DashboardTable = () => {
 
   return (
     <>
-      <AddToPortfolioModal
+      <AddTransactionModal
         isOpen={isAddModalOpen}
         setIsOpen={setIsAddModalOpen}
         data={currentCoin}

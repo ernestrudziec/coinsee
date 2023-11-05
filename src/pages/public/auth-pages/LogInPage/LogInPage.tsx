@@ -32,8 +32,6 @@ export const LogInPage = () => {
   };
 
   useEffect(() => {
-    console.log({ error, status });
-
     status === RequestStatus.SUCCESS && navigate(PrivateRoutePath.DASHBOARD);
   }, [status, error, navigate]);
 
