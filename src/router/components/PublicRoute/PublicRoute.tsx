@@ -1,23 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Navigate } from "react-router";
-import { useAuth } from "../../../context/auth/useAuth";
+import { useAuth } from "../../../context/auth/hooks/useAuth";
 import { PrivateRoutePath } from "../../routes";
-import { Spin } from "antd";
 
 export type PublicRouteProps = {
   children: JSX.Element;
+  allowRedirect?: boolean;
 };
 
-export const PublicRoute = ({ children }: PublicRouteProps) => {
-  const { currentUser } = useAuth();
+export const PublicRoute = ({ children, allowRedirect }: PublicRouteProps) => {
+  const { isUser } = useAuth();
 
-  if (currentUser === undefined) {
-    return <Spin size="large" />;
-  }
-  if (currentUser !== null && currentUser !== undefined) {
+  if (isUser && allowRedirect) {
     return <Navigate to={PrivateRoutePath.DASHBOARD} replace />;
-  }
-
-  return children;
+  } else return children;
 };

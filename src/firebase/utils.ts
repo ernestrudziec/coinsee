@@ -26,11 +26,9 @@ export const getFirestoreData = async ({ doc, query }: GetFirestoreData) => {
       query as unknown as Query<unknown, DocumentData>
     );
 
-    console.log({ querySnapshot });
-
     const data = [...querySnapshot.docs].map((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      return { id: doc.id, data: doc.data() };
+      return { id: doc.id, ...Object(doc.data()) };
     });
 
     return data;

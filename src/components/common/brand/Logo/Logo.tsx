@@ -1,5 +1,5 @@
-import LogoWhite from "../../../assets/coinsee_logo_white.png";
-import LogoDark from "../../../assets/coinsee_logo_dark.png";
+import LogoWhite from "../../../../assets/coinsee_logo_white.png";
+import LogoDark from "../../../../assets/coinsee_logo_dark.png";
 
 import "./Logo.styles.scss";
 

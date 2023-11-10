@@ -1,4 +1,4 @@
-import { db } from "../../firebase/setup";
+import { db } from "../../setup";
 
 import { doc, setDoc } from "firebase/firestore";
 
@@ -16,7 +16,7 @@ export const createUserProfile = async ({ uid, email }: CreateUserParams) => {
         createdAt: new Date(),
       });
     } catch (e) {
-      console.error("Error adding document: ", e);
+      console.error("Error while creating user profile: ", e);
     }
   }
 };

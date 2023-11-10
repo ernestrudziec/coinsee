@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SORTING_STATE, SORTING_DIR } from "../utils/config";
+import { SORTING_STATE, SORTING_DIR } from "../../utils/config";
 
 export const useSort = () => {
   const [sortBy, setSortBy] = useState<string>(SORTING_STATE.rank);

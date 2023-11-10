@@ -2,11 +2,10 @@ import { Button, Form, Input, Result } from "antd";
 import backgroundVideo from "../../../../assets/background.mp4";
 
 import "./SignUpPage.styles.scss";
-import { useAuth } from "../../../../context/auth/useAuth";
-import { useEffect } from "react";
+import { useAuth } from "../../../../context/auth/hooks/useAuth";
 import { RequestStatus } from "../../../../context/auth/constants";
 import { PrivateRoutePath } from "../../../../router/routes";
-import { Logo } from "../../../../components/common/Logo";
+import { Logo } from "../../../../components/common/brand/Logo";
 
 export const SignUpPage = () => {
   const {

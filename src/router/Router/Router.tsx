@@ -4,9 +4,10 @@ import { Layout } from "../../components/Layout";
 import { ErrorPage } from "../../pages/public/misc/ErrorPage";
 import { PrivateRoute } from "../components/PrivateRoute";
 import { RouterPrivacy } from "../routes";
-import { useAuth } from "../../context/auth/useAuth";
 import { router } from "..";
 import { PublicRoute } from "../components/PublicRoute";
+import { useAuth } from "../../context/auth/hooks/useAuth";
+import { LogInPage } from "../../pages/public/auth-pages/LogInPage";
 
 export const Router = () => {
   return (
@@ -34,13 +35,13 @@ export const Router = () => {
           )}
         </Route>
 
-        {router.map(({ path, element: Component, privacy }) =>
+        {router.map(({ path, element: Component, privacy, allowRedirect }) =>
           privacy === RouterPrivacy.PUBLIC ? (
             <Route
               key={path}
               path={path}
               element={
-                <PublicRoute>
+                <PublicRoute allowRedirect={allowRedirect}>
                   <Component />
                 </PublicRoute>
               }

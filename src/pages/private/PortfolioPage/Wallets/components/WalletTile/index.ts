@@ -1,0 +1,1 @@
+export { WalletTile } from "./WalletTile";

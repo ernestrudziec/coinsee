@@ -1,10 +1,10 @@
 import { Form, Input, Modal, Row } from "antd";
 import { useState } from "react";
-import { TransactionType } from "../../../../firebase/api/createTransaction";
-import { useAuth } from "../../../../context/auth/useAuth";
+import { TransactionType } from "../../../../firebase/api/transaction/createTransaction";
+import { useAuth } from "../../../../context/auth/hooks/useAuth";
 import { useNavigate } from "react-router";
 import { PrivateRoutePath } from "../../../../router/routes";
-import { createWallet } from "../../../../firebase/api/createWallet";
+import { walletApi } from "../../../../firebase/api/wallet/walletApi";
 
 export type CreateWalletModalProps = {
   isOpen: boolean;
@@ -25,7 +25,7 @@ export const CreateWalletModal = ({
 
   const handleOk = async () => {
     if (walletName && currentUser?.uid) {
-      await createWallet({
+      await walletApi.create({
         uid: currentUser.uid,
         name: walletName,
       });

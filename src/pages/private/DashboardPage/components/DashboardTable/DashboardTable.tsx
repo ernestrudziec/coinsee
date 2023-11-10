@@ -2,22 +2,22 @@
 import { useQuery } from "@apollo/client";
 import { Spin, Table } from "antd";
 import { GET_COINS } from "../../../../../graphql/queries";
-import { useSort } from "../../../../../hooks/useSort";
+import { useSort } from "../../../../../hooks/misc/useSort";
 
 import { SORTING_STATE } from "../../../../../utils/config";
 import { SORTING_DIR } from "../../../../../constants/constants";
-import { useBreakpoint } from "../../../../../hooks/useBreakpoint";
+import { useBreakpoint } from "../../../../../hooks/misc/useBreakpoint";
 import { AddTransactionModal } from "../../../../../components/common/modals/AddTransactionModal";
 import { useState } from "react";
-import { Coin } from "./types";
 import { getColumns } from "./columns";
+import { CoinData } from "../../../../../types/entities";
 
 const onlyFavorites = false;
 const favorites = ["bitcoin", "ethereum", "tether"];
 
 export const DashboardTable = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [currentCoin, setCurrentCoin] = useState<Coin | null>(null);
+  const [currentCoin, setCurrentCoin] = useState<CoinData | null>(null);
 
   const screens = useBreakpoint();
   const { sortBy, sortDir, switchSortingState, switchSortingDir, coinsCount } =
@@ -34,7 +34,7 @@ export const DashboardTable = () => {
     },
   });
 
-  const handleAddClick = ({ data }: { data: Coin }) => {
+  const handleAddClick = ({ data }: { data: CoinData }) => {
     setIsAddModalOpen(true);
     setCurrentCoin(data);
   };
@@ -46,8 +46,9 @@ export const DashboardTable = () => {
     );
   };
 
-  const sanitizedData: Array<Coin> = dataQuery?.object?.coinsArray.map(
-    ({ coin, ...extra }: { coin: Coin; cursor: string }) => ({
+  const sanitizedData: Array<CoinData> = dataQuery?.object?.coinsArray.map(
+    ({ coin, ...extra }: { coin: CoinData; cursor: string }) => ({
+      key: coin.id,
       id: coin.id,
       rank: coin.rank,
       name: coin.name,

@@ -2,7 +2,7 @@ import { Button } from "antd";
 import "./LandingPage.styles.scss";
 import { PublicRoutePath } from "../../../../router/routes";
 import backgroundVideo from "../../../../assets/background.mp4";
-import { Logo } from "../../../../components/common/Logo";
+import { Logo } from "../../../../components/common/brand/Logo";
 
 export const LandingPage = () => {
   return (

@@ -37,6 +37,7 @@ export const privateRoutes = [
     element: DashboardPage,
     title: "Dashboard",
     key: "dashboard",
+    allowRedirect: true,
   },
   {
     privacy: RouterPrivacy.PRIVATE,
@@ -44,6 +45,7 @@ export const privateRoutes = [
     element: MyProfilePage,
     title: "My profile",
     key: "my-profile",
+    allowRedirect: true,
   },
   {
     privacy: RouterPrivacy.PRIVATE,
@@ -51,6 +53,7 @@ export const privateRoutes = [
     element: PortfolioPage,
     title: "Portfolio",
     key: "portfolio",
+    allowRedirect: true,
   },
   {
     privacy: RouterPrivacy.PRIVATE,
@@ -58,6 +61,7 @@ export const privateRoutes = [
     element: SettingsPage,
     title: "Settings",
     key: "settings",
+    allowRedirect: true,
   },
 ];
 
@@ -68,6 +72,7 @@ export const publicRoutes = [
     element: LogInPage,
     title: "Log in",
     key: "login",
+    allowRedirect: true,
   },
   {
     privacy: RouterPrivacy.PUBLIC,
@@ -75,6 +80,7 @@ export const publicRoutes = [
     element: LogOutPage,
     title: "Log out",
     key: "logout",
+    allowRedirect: false,
   },
   {
     privacy: RouterPrivacy.PUBLIC,
@@ -82,6 +88,7 @@ export const publicRoutes = [
     element: SignUpPage,
     title: "Sign up",
     key: "sign-up",
+    allowRedirect: true,
   },
   {
     privacy: RouterPrivacy.PUBLIC,
@@ -89,6 +96,7 @@ export const publicRoutes = [
     element: LandingPage,
     title: "Landing page",
     key: "landing",
+    allowRedirect: true,
   },
   {
     privacy: RouterPrivacy.PUBLIC,
@@ -96,6 +104,7 @@ export const publicRoutes = [
     element: ErrorPage,
     title: "Error page",
     key: "error",
+    allowRedirect: true,
   },
 ];
 

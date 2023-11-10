@@ -1,18 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Navigate } from "react-router";
-import { useAuth } from "../../../context/auth/useAuth";
+import { useAuth } from "../../../context/auth/hooks/useAuth";
 
 export type PrivateRouteProps = {
   children: JSX.Element;
 };
 
 export const PrivateRoute = ({ children }: PrivateRouteProps) => {
-  const { currentUser } = useAuth();
+  const { isUser, isLoading } = useAuth();
 
-  if (currentUser === null) {
+  if (!isUser && !isLoading) {
     return <Navigate to="/login" replace />;
-  }
-
-  return children;
+  } else return children;
 };

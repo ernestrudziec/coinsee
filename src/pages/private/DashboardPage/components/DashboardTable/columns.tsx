@@ -1,21 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ColumnsType } from "antd/es/table";
 import currency from "currency.js";
-import { Coin } from "./types";
 import { Flex, Tooltip, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { ChangeCell } from "../../../../../components/common/cells/ChangeCell";
 import { IconCell } from "../../../../../components/common/cells/IconCell";
+import { CoinData } from "../../../../../types/entities";
+
 export type GetColumnsParams = {
   isMobile: boolean;
-  onAddClick: ({ data }: { data: Coin }) => void;
+  onAddClick: ({ data }: { data: CoinData }) => void;
 };
 
 export const getColumns = ({
   isMobile,
   onAddClick,
-}: GetColumnsParams): ColumnsType<Coin> => {
-  const mobileColumns: ColumnsType<Coin> = [
+}: GetColumnsParams): ColumnsType<CoinData> => {
+  const mobileColumns: ColumnsType<CoinData> = [
     {
       title: "Rank",
       dataIndex: "rank",
@@ -70,7 +71,7 @@ export const getColumns = ({
     },
   ];
 
-  const desktopColumns: ColumnsType<Coin> = [
+  const desktopColumns: ColumnsType<CoinData> = [
     {
       title: "Market Cap",
       dataIndex: "marketCapUsd",

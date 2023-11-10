@@ -1,37 +1,35 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  Col,
+  Button,
   DatePicker,
   Flex,
   Form,
-  Grid,
   InputNumber,
   Modal,
   Row,
   Select,
   Typography,
 } from "antd";
-import { Coin } from "../../../../pages/private/DashboardPage/components/DashboardTable/types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IconCell } from "../../cells/IconCell";
 import dayjs from "dayjs";
 import { getUsd } from "../../../../utils/formatters";
-import {
-  TransactionType,
-  createTransaction,
-} from "../../../../firebase/api/createTransaction";
-import { useAuth } from "../../../../context/auth/useAuth";
+import { useAuth } from "../../../../context/auth/hooks/useAuth";
 import { ChangeCell } from "../../cells/ChangeCell";
 import { useNavigate } from "react-router";
 import { PrivateRoutePath } from "../../../../router/routes";
-import { useWallets } from "../../../../hooks/api/useWallets";
+import { usePortfolio } from "../../../../hooks/api/usePortfolio/usePortfolio";
 import { WalletOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import { transactionApi } from "../../../../firebase/api/transaction/transactionApi";
+import { CoinData, TransactionType } from "../../../../types/entities";
 
 const { Option } = Select;
 
 export type AddTransactionModalProps = {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
-  data: Coin | null;
+  data: CoinData | null;
 };
 
 export const AddTransactionModal = ({
@@ -43,18 +41,18 @@ export const AddTransactionModal = ({
 
   const [amount, setAmount] = useState(0);
   const [date, setDate] = useState(dayjs());
-  const [transactionType, setTransactionType] =
-    useState<TransactionType>("BUY");
+  const [transactionType, setTransactionType] = useState<TransactionType>(
+    TransactionType.BUY
+  );
   const [walletId, setWalletId] = useState<string | null>(null);
 
   const { currentUser } = useAuth();
-  const { wallets } = useWallets();
 
-  const hasAnyWallet = wallets?.length > 0;
+  const { wallets, hasAnyWallet } = usePortfolio();
 
   const handleOk = async () => {
     if (coin !== null && walletId !== null) {
-      await createTransaction({
+      await transactionApi.create({
         type: transactionType,
         uid: currentUser.uid,
         coin,
@@ -66,10 +64,6 @@ export const AddTransactionModal = ({
       navigate(PrivateRoutePath.PORTFOLIO);
     }
   };
-
-  useEffect(() => {
-    console.log({ walletId, amount, date, transactionType });
-  }, [walletId, amount, date, transactionType]);
 
   return (
     <>
@@ -84,7 +78,20 @@ export const AddTransactionModal = ({
           disabled: !(amount && date && walletId && transactionType),
         }}
       >
-        {coin && (
+        {!wallets?.length ? (
+          <>
+            <Typography style={{ marginBottom: 16 }}>
+              No wallet connected with your account.
+            </Typography>
+            <Link to={PrivateRoutePath.PORTFOLIO}>
+              <Button type="primary">
+                <WalletOutlined />
+                Create new wallet
+              </Button>
+            </Link>
+          </>
+        ) : null}
+        {wallets?.length && coin ? (
           <>
             <Flex
               justify="space-between"
@@ -166,7 +173,7 @@ export const AddTransactionModal = ({
                         <Option value={wallet?.id} key={wallet.id}>
                           {" "}
                           <WalletOutlined style={{ marginRight: 5 }} />{" "}
-                          {wallet.data.name}
+                          {wallet.name}
                         </Option>
                       ))}
                   </Select>
@@ -196,7 +203,7 @@ export const AddTransactionModal = ({
               </Flex>
             </Row>
           </>
-        )}
+        ) : null}
       </Modal>
     </>
   );

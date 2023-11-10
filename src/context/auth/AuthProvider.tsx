@@ -12,7 +12,8 @@ import {
 import { auth } from "../../firebase/setup";
 import { AuthContext } from "./AuthContext";
 import { RequestStatus } from "./constants";
-import { createUserProfile } from "../../firebase/api/createUserProfile";
+import { useUserState } from "./hooks/useUserState";
+import { userApi } from "../../firebase/api/user/userApi";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -22,6 +23,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [currentUser, setCurrentUser] = useState<User | null | undefined>(
     undefined
   );
+
+  const { userState, setIsUserExpected } = useUserState({
+    isCurrentUser: !!currentUser,
+  });
 
   const [signUpError, setSignUpError] = useState<unknown>(null);
   const [signUpStatus, setSignUpStatus] = useState<RequestStatus>(
@@ -57,7 +62,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         password
       );
 
-      await createUserProfile({
+      await userApi.create({
         email,
         uid: credentials?.user?.uid,
       });
@@ -93,6 +98,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logOut = async () => {
     setLogOutStatus(RequestStatus.IDLE);
+    setIsUserExpected(false);
 
     try {
       setLogOutStatus(RequestStatus.PENDING);
@@ -108,13 +114,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       user && setCurrentUser(user);
+      user && setIsUserExpected(true);
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [setIsUserExpected]);
 
   const value = {
     currentUser,
+    userState,
     signUp: { execute: signUp, error: signUpError, status: signUpStatus },
     logIn: { execute: logIn, error: logInError, status: logInStatus },
     logOut: { execute: logOut, error: logOutError, status: logOutStatus },

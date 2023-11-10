@@ -16,12 +16,15 @@ import {
   MenuFoldOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Logo } from "../common/Logo";
+import { Logo } from "../common/brand/Logo";
 
 import { footerMenuConfig, menuConfig } from "./config";
 import { useCurrentRoute } from "../../router/hooks/useCurrentRoute";
 import { PrivateRoutePath } from "../../router/routes";
-import { useAuth } from "../../context/auth/useAuth";
+import { useAuth } from "../../context/auth/hooks/useAuth";
+import { useBreakpoint } from "../../hooks/misc/useBreakpoint";
+import { LoadingPage } from "../../pages/public/misc/LoadingPage";
+import { LogInPage } from "../../pages/public/auth-pages/LogInPage";
 
 const { Header, Content, Footer, Sider } = AntDLayout;
 
@@ -34,7 +37,6 @@ export const Layout = ({ children }: LayoutProps) => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
 
   const currentRoute = useCurrentRoute() || null;
@@ -49,7 +51,11 @@ export const Layout = ({ children }: LayoutProps) => {
 
   const [collapsed, setCollapsed] = useState(screens.lg ? false : true);
 
-  return (
+  const { isLoading } = useAuth();
+
+  return isLoading ? (
+    <LoadingPage />
+  ) : (
     <AntDLayout
       style={{ marginLeft: screens.lg && !collapsed ? 180 : 0, padding: 0 }}
     >
@@ -68,7 +74,7 @@ export const Layout = ({ children }: LayoutProps) => {
           left: 0,
           top: 0,
           bottom: 0,
-          zIndex: 99,
+          zIndex: 9,
           padding: "5px 0px",
         }}
       >

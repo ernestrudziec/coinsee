@@ -4,12 +4,12 @@ import { Button, Checkbox, Form, Input } from "antd";
 import { useNavigate } from "react-router";
 
 import backgroundVideo from "../../../../assets/background.mp4";
-import { useAuth } from "../../../../context/auth/useAuth";
+import { useAuth } from "../../../../context/auth/hooks/useAuth";
 import { RequestStatus } from "../../../../context/auth/constants";
 import { PrivateRoutePath } from "../../../../router/routes";
 
 import "./LogInPage.styles.scss";
-import { Logo } from "../../../../components/common/Logo";
+import { Logo } from "../../../../components/common/brand/Logo";
 
 export const LogInPage = () => {
   const {

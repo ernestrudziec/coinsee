@@ -4,3 +4,9 @@ export enum RequestStatus {
   ERROR = "error",
   SUCCESS = "success",
 }
+
+export enum UserState {
+  LOGGED_IN = "LOGGED_IN",
+  LOADING = "LOADING",
+  GUEST = "GUEST",
+}

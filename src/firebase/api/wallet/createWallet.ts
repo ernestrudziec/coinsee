@@ -1,4 +1,4 @@
-import { db } from "../setup";
+import { db } from "../../setup";
 
 import { addDoc, collection } from "firebase/firestore";
 
@@ -17,7 +17,7 @@ export const createWallet = async ({ name, uid }: CreateWalletParams) => {
         createdAt: new Date(),
       });
     } catch (e) {
-      console.error("Error adding document: ", e);
+      console.error("Error while creating wallet: ", e);
     }
   }
 };

@@ -2,26 +2,17 @@ import { Button, Flex, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { CreateWalletModal } from "../../../../components/common/modals/CreateWalletModal";
 import { PlusOutlined } from "@ant-design/icons";
-import { useWallets } from "../../../../hooks/api/useWallets";
-import { useTransactions } from "../../../../hooks/api/useTransactions";
+import { usePortfolio } from "../../../../hooks/api/usePortfolio/usePortfolio";
+import { WalletTile } from "./components/WalletTile";
 
-export const Wallet = ({ name }: { name: string }) => {
-  <Flex>
-    <Typography style={{ fontSize: 24, fontWeight: 700 }}>
-      Wallet {name}
-    </Typography>
-  </Flex>;
-};
 export const Wallets = () => {
   const [isCreateWalletModalOpen, setIsCreateWalletModalOpen] = useState(false);
 
-  const { wallets } = useWallets();
-  const { transactions } = useTransactions();
+  const { wallets } = usePortfolio();
 
   useEffect(() => {
     console.log({ wallets });
-    console.log({ transactions });
-  }, [wallets, transactions]);
+  }, [wallets]);
 
   const handleCreateWalletClick = () => {
     setIsCreateWalletModalOpen(true);
@@ -37,6 +28,11 @@ export const Wallets = () => {
         <Typography style={{ fontSize: 24, fontWeight: 700 }}>
           Wallets
         </Typography>
+        <Flex>
+          {wallets?.map((wallet: Wallet) => (
+            <WalletTile key={wallet.id} wallet={wallet} />
+          ))}
+        </Flex>
         <Button
           style={{ marginTop: 16, maxWidth: 180 }}
           onClick={handleCreateWalletClick}

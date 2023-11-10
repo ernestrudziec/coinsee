@@ -1,6 +1,6 @@
 import { collection, query } from "firebase/firestore";
-import { db } from "../setup";
-import { getFirestoreData } from "../utils";
+import { db } from "../../setup";
+import { getFirestoreData } from "../../utils";
 
 export type GetAllWallets = {
   uid: string;
@@ -13,7 +13,7 @@ export const getAllWallets = async ({ uid }: GetAllWallets) => {
 
     return wallets;
   } catch (e) {
-    console.log(e);
+    console.log("Error getting all wallets", e);
     return [];
   }
 };

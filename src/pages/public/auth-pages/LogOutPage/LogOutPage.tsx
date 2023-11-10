@@ -3,11 +3,11 @@ import { useEffect } from "react";
 import { Button } from "antd";
 
 import backgroundVideo from "../../../../assets/background.mp4";
-import { useAuth } from "../../../../context/auth/useAuth";
+import { useAuth } from "../../../../context/auth/hooks/useAuth";
 import { PublicRoutePath } from "../../../../router/routes";
 
 import "./LogOutPage.styles.scss";
-import { Logo } from "../../../../components/common/Logo";
+import { Logo } from "../../../../components/common/brand/Logo";
 
 export const LogOutPage = () => {
   const {
@@ -19,7 +19,7 @@ export const LogOutPage = () => {
   }, [error, execute, status]);
 
   return (
-    <div className="login-page">
+    <div className="logout-page">
       <header>
         <div className="background-video">
           <video className="videoTag" autoPlay loop muted>
