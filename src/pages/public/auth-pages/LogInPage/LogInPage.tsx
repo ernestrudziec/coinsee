@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { useEffect } from "react";
 import { Button, Checkbox, Form, Input } from "antd";
 import { useNavigate } from "react-router";

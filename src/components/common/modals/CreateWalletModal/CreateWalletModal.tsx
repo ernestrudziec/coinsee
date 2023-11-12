@@ -1,21 +1,21 @@
 import { Form, Input, Modal, Row } from "antd";
 import { useState } from "react";
-import { TransactionType } from "../../../../firebase/api/transaction/createTransaction";
 import { useAuth } from "../../../../context/auth/hooks/useAuth";
 import { useNavigate } from "react-router";
 import { PrivateRoutePath } from "../../../../router/routes";
 import { walletApi } from "../../../../firebase/api/wallet/walletApi";
+import { TransactionType } from "../../../../types/entities";
 
 export type CreateWalletModalProps = {
   isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
+  onClose: ({ refetch }: { refetch: boolean }) => void;
 };
 
 export const CreateWalletModal = ({
   isOpen,
-  setIsOpen,
+  onClose,
 }: CreateWalletModalProps) => {
-  useState<TransactionType>("BUY");
+  useState<TransactionType>(TransactionType.BUY);
 
   const [walletName, setWalletName] = useState<string | null>(null);
 
@@ -29,7 +29,7 @@ export const CreateWalletModal = ({
         uid: currentUser.uid,
         name: walletName,
       });
-      setIsOpen(false);
+      onClose({ refetch: true });
       navigate(PrivateRoutePath.PORTFOLIO);
     }
   };
@@ -41,7 +41,7 @@ export const CreateWalletModal = ({
         centered
         open={isOpen}
         onOk={handleOk}
-        onCancel={() => setIsOpen(false)}
+        onCancel={() => onClose({ refetch: false })}
         okText="Submit"
         okButtonProps={{ disabled: !walletName }}
       >

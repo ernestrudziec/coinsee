@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 
 import { Navigate } from "react-router";
 import { useAuth } from "../../../context/auth/hooks/useAuth";

@@ -5,7 +5,7 @@ export const useCurrentRoute = () => {
   const location = useLocation();
 
   const currentRoute = router.find((route) => {
-    return route.path === location.pathname;
+    return location.pathname.includes(route.path);
   });
 
   return currentRoute;

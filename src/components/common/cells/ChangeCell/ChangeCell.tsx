@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Tag } from "antd";
 import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
 

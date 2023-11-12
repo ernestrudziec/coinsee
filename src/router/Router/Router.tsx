@@ -6,8 +6,6 @@ import { PrivateRoute } from "../components/PrivateRoute";
 import { RouterPrivacy } from "../routes";
 import { router } from "..";
 import { PublicRoute } from "../components/PublicRoute";
-import { useAuth } from "../../context/auth/hooks/useAuth";
-import { LogInPage } from "../../pages/public/auth-pages/LogInPage";
 
 export const Router = () => {
   return (

@@ -4,7 +4,6 @@ import {
   Layout as AntDLayout,
   Menu,
   theme,
-  Grid,
   Button,
   Typography,
   Tooltip,
@@ -24,7 +23,6 @@ import { PrivateRoutePath } from "../../router/routes";
 import { useAuth } from "../../context/auth/hooks/useAuth";
 import { useBreakpoint } from "../../hooks/misc/useBreakpoint";
 import { LoadingPage } from "../../pages/public/misc/LoadingPage";
-import { LogInPage } from "../../pages/public/auth-pages/LogInPage";
 
 const { Header, Content, Footer, Sider } = AntDLayout;
 
@@ -143,7 +141,7 @@ export const Layout = ({ children }: LayoutProps) => {
         <Header
           style={{
             backgroundColor: "white",
-            minHeight: 100,
+            height: "100px",
             display: "flex",
             justifyContent: "flex-start",
             alignItems: "center",
@@ -188,24 +186,27 @@ export const Layout = ({ children }: LayoutProps) => {
             )}
           </Flex>
         </Header>
-        <Content style={{ margin: 0, padding: 0 }}>
-          <div
-            style={{
-              padding: 0,
-              background: colorBgContainer,
-              minHeight: "100%",
-              overflowX: "scroll",
-            }}
-          >
-            {children}
-          </div>
+        <Content
+          style={{
+            margin: 0,
+            padding: 0,
+            background: colorBgContainer,
+            minHeight: "calc(90vh - 80px)",
+            overflowX: "auto",
+          }}
+        >
+          {children}
         </Content>
 
         <Footer
           style={{
-            opacity: 0.5,
+            opacity: 0.6,
             margin: "0.4rem 0",
             textAlign: "center",
+            height: "60px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           Coinsee ©2023 Created by Ernest Rudziec

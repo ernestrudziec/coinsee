@@ -1,9 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../../context/auth/hooks/useAuth";
 import { walletApi } from "../../../firebase/api/wallet/walletApi";
 import { transactionApi } from "../../../firebase/api/transaction/transactionApi";
-import { TransactionData, WalletData } from "../../../types/entities";
+import {
+  ExtraWalletData,
+  TransactionData,
+  WalletData,
+} from "../../../types/entities";
 import { useQuery } from "@apollo/client";
 import { GET_COINS } from "../../../graphql/queries";
 import {
@@ -60,17 +64,51 @@ export const usePortfolio = () => {
     wallets,
     transactions,
     currentCoinsData: sanitizedCurrentCoinsData,
+  }) as unknown as ExtraWalletData[];
+
+  // first not empty wallets, then empty wallets
+  const sortedWalletsData = walletsData.sort((a, b) => {
+    return b.total.amountUsd.now - a.total.amountUsd.now;
   });
 
-  const portfolio = {
-    isLoading: isLoading,
-    transactions: transactions,
-    wallets: walletsData,
-    currentCoinsData: sanitizedCurrentCoinsData,
-    hasAnyWallet: wallets?.length > 0,
+  const portfolioTotalAmountUsd = sortedWalletsData.reduce(
+    (acc, wallet) => acc + wallet.total.amountUsd.now,
+    0
+  );
+
+  const portfolioTotalProfit = sortedWalletsData.reduce(
+    (acc, wallet) => acc + wallet.total.profit.amountUsd,
+    0
+  );
+
+  const portfolioTotalProfitPercentage =
+    (portfolioTotalProfit / portfolioTotalAmountUsd) * 100;
+
+  const portfolioTotal = {
+    amountUsd: portfolioTotalAmountUsd,
+    profit: {
+      amountUsd: portfolioTotalProfit,
+      percentage: portfolioTotalProfitPercentage,
+    },
   };
 
-  console.log({ portfolio });
+  const getWalletById = useCallback(
+    ({ walletId }: { walletId: string | null }) => {
+      return sortedWalletsData.find((wallet) => wallet.id === walletId);
+    },
+    [sortedWalletsData]
+  );
+
+  const portfolio = {
+    isLoading: isFirestoreDataLoading || isLoading,
+    refetch: fetchWalletsAndTransactions,
+    transactions: transactions,
+    wallets: sortedWalletsData,
+    total: portfolioTotal,
+    currentCoinsData: sanitizedCurrentCoinsData,
+    hasAnyWallet: wallets?.length > 0,
+    getWalletById: getWalletById,
+  };
 
   return portfolio;
 };

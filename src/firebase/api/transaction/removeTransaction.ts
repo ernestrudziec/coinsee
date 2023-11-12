@@ -1,7 +1,6 @@
 import { db } from "../../setup";
 
 import { deleteDoc, doc } from "firebase/firestore";
-import { removeTransactionFromWallet } from "../wallet/removeTransactionFromWallet";
 import { walletApi } from "../wallet/walletApi";
 
 export type RemoveTransactionParams = {
