@@ -1,15 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Flex, Table } from "antd";
 
-import { AddTransactionModal } from "../../../../../components/common/modals/AddTransactionModal";
-
 import { CoinData } from "../../../../../types/entities";
 import { ColumnsType } from "antd/es/table";
 
 export type DashboardTableProps = {
-  isAddModalOpen: boolean;
-  setIsAddModalOpen: (isOpen: boolean) => void;
-  currentCoin: CoinData | null;
   isTableLoading: boolean;
   columns: ColumnsType<CoinData>;
   data: Array<CoinData>;
@@ -17,23 +12,10 @@ export type DashboardTableProps = {
 };
 
 export const DashboardTable = (props: DashboardTableProps) => {
-  const {
-    isAddModalOpen,
-    setIsAddModalOpen,
-    currentCoin,
-    isTableLoading,
-    columns,
-    data,
-    onChange,
-  } = props;
+  const { isTableLoading, columns, data, onChange } = props;
 
   return (
     <>
-      <AddTransactionModal
-        isOpen={isAddModalOpen}
-        setIsOpen={setIsAddModalOpen}
-        data={currentCoin}
-      />
       <div
         style={{
           width: "100%",

@@ -1,0 +1,1 @@
+export { useCurrentRoute } from "./useCurrentRoute";

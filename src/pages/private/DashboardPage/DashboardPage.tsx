@@ -3,21 +3,21 @@ import { Flex } from "antd";
 import { DashboardTable } from "./components/DashboardTable";
 import { getColumns } from "./components/DashboardTable/columns";
 import { useQuery } from "@apollo/client";
-import { useState } from "react";
+
 import { SORTING_STATE, SORTING_DIR } from "../../../constants/constants";
-import { GET_COINS } from "../../../graphql/queries";
 import { useBreakpoint } from "../../../hooks/misc/useBreakpoint";
 import { useSort } from "../../../hooks/misc/useSort";
 import { CoinData } from "../../../types/entities";
 import { DashboardStatistics } from "./components/DashboardStatistics";
+import { GET_COINS } from "../../../graphql/queries";
+import { useModal } from "../../../context/modal/hooks/useModal";
+import { ModalType } from "../../../context/modal/constants";
 
 export const DashboardPage = () => {
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [currentCoin, setCurrentCoin] = useState<CoinData | null>(null);
-
   const screens = useBreakpoint();
-  const { sortBy, sortDir, switchSortingState, switchSortingDir } = useSort();
+  const { handleOpenModal } = useModal();
 
+  const { sortBy, sortDir, switchSortingState, switchSortingDir } = useSort();
   const { data: dataQuery, loading } = useQuery(GET_COINS, {
     variables: {
       first: 100,
@@ -30,8 +30,10 @@ export const DashboardPage = () => {
   });
 
   const handleAddClick = ({ data }: { data: CoinData }) => {
-    setIsAddModalOpen(true);
-    setCurrentCoin(data);
+    handleOpenModal({
+      type: ModalType.ADD_TRANSACTION,
+      data: { coin: data, walletId: null },
+    });
   };
 
   const handleTableChange = (_pagination: any, _filters: any, sorter: any) => {
@@ -64,9 +66,6 @@ export const DashboardPage = () => {
   });
 
   const dashboardTableProps = {
-    isAddModalOpen,
-    setIsAddModalOpen,
-    currentCoin,
     isTableLoading: loading,
     columns,
     data: sanitizedData,
@@ -75,7 +74,7 @@ export const DashboardPage = () => {
 
   return (
     <Flex vertical>
-      <DashboardStatistics marketTotal={dataQuery?.marketTotal} />
+      <DashboardStatistics data={dataQuery?.marketTotal} />
       <DashboardTable {...dashboardTableProps} />
     </Flex>
   );

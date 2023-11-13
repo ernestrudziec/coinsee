@@ -4,24 +4,20 @@ import { useAuth } from "../../../../context/auth/hooks/useAuth";
 import { useNavigate } from "react-router";
 import { PrivateRoutePath } from "../../../../router/routes";
 import { walletApi } from "../../../../firebase/api/wallet/walletApi";
-import { TransactionType } from "../../../../types/entities";
+import { BaseModalProps } from "../types";
+import { useModal } from "../../../../context/modal/hooks/useModal";
+import { ModalType } from "../../../../context/modal/constants";
 
-export type CreateWalletModalProps = {
-  isOpen: boolean;
-  onClose: ({ refetch }: { refetch: boolean }) => void;
-};
+export type CreateWalletModalProps = BaseModalProps;
 
-export const CreateWalletModal = ({
-  isOpen,
-  onClose,
-}: CreateWalletModalProps) => {
-  useState<TransactionType>(TransactionType.BUY);
+export const CreateWalletModal = (props: CreateWalletModalProps) => {
+  const { isOpen } = props;
 
   const [walletName, setWalletName] = useState<string | null>(null);
 
   const { currentUser } = useAuth();
-
   const navigate = useNavigate();
+  const { handleModalAction, handleCloseModal } = useModal();
 
   const handleOk = async () => {
     if (walletName && currentUser?.uid) {
@@ -29,9 +25,19 @@ export const CreateWalletModal = ({
         uid: currentUser.uid,
         name: walletName,
       });
-      onClose({ refetch: true });
+      handleModalAction({
+        type: ModalType.ADD_WALLET,
+        refetchPortfolio: true,
+      });
+      handleCloseModal();
       navigate(PrivateRoutePath.PORTFOLIO);
     }
+  };
+
+  const handleClose = () => {
+    handleModalAction({ refetchPortfolio: false });
+    setWalletName(null);
+    handleCloseModal();
   };
 
   return (
@@ -41,7 +47,7 @@ export const CreateWalletModal = ({
         centered
         open={isOpen}
         onOk={handleOk}
-        onCancel={() => onClose({ refetch: false })}
+        onCancel={() => handleClose()}
         okText="Submit"
         okButtonProps={{ disabled: !walletName }}
       >

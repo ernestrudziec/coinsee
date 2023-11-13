@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Button,
+  Checkbox,
   DatePicker,
   Flex,
   Form,
@@ -23,21 +24,18 @@ import { WalletOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { transactionApi } from "../../../../firebase/api/transaction/transactionApi";
 import { CoinData, TransactionType } from "../../../../types/entities";
+import { BaseModalProps } from "../types";
+import { useModal } from "../../../../context/modal/hooks/useModal";
 
 const { Option } = Select;
 
-export type AddTransactionModalProps = {
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
-  data: CoinData | null;
-};
+export type AddTransactionModalProps = BaseModalProps;
 
-export const AddTransactionModal = ({
-  isOpen,
-  setIsOpen,
-  data: coin,
-}: AddTransactionModalProps) => {
-  const navigate = useNavigate();
+export const AddTransactionModal = (props: AddTransactionModalProps) => {
+  const coin = (props.data?.coin as CoinData) || [];
+  const defaultWalletId = props.data?.walletId as string;
+
+  const { isOpen } = props;
 
   const [amount, setAmount] = useState(0);
   const [date, setDate] = useState(dayjs());
@@ -45,13 +43,34 @@ export const AddTransactionModal = ({
     TransactionType.BUY
   );
   const [walletId, setWalletId] = useState<string | null>(null);
+  const [customPrice, setCustomPrice] = useState<number | null>(null);
+  const [isCustomPrice, setIsCustomPrice] = useState<boolean>(false);
 
+  const navigate = useNavigate();
+  const { handleCloseModal } = useModal();
   const { currentUser } = useAuth();
+  const { wallets, refetch, hasAnyWallet } = usePortfolio();
 
-  const { wallets, hasAnyWallet } = usePortfolio();
+  const resetForm = () => {
+    setAmount(0);
+    setDate(dayjs());
+    setTransactionType(TransactionType.BUY);
+    setWalletId(null);
+    setCustomPrice(null);
+    setIsCustomPrice(false);
+  };
+
+  const handleClose = () => {
+    resetForm();
+    handleCloseModal();
+  };
 
   const handleOk = async () => {
     if (coin !== null && walletId !== null) {
+      if (isCustomPrice && customPrice !== null) {
+        coin.priceUsd = String(customPrice);
+      }
+
       await transactionApi.create({
         type: transactionType,
         uid: currentUser.uid,
@@ -60,7 +79,8 @@ export const AddTransactionModal = ({
         amount,
         transactionDate: new Date(date.toISOString()),
       });
-      setIsOpen(false);
+      handleClose();
+      refetch();
       navigate(PrivateRoutePath.PORTFOLIO);
     }
   };
@@ -72,7 +92,7 @@ export const AddTransactionModal = ({
         centered
         open={isOpen}
         onOk={handleOk}
-        onCancel={() => setIsOpen(false)}
+        onCancel={handleClose}
         okText="Add transaction"
         okButtonProps={{
           disabled: !(amount && date && walletId && transactionType),
@@ -122,6 +142,7 @@ export const AddTransactionModal = ({
                     style={{ width: "100%" }}
                     placeholder="Enter amount"
                     min={0}
+                    value={amount}
                     onChange={(amount) => setAmount(amount || 0)}
                   />
                 </Form.Item>
@@ -135,6 +156,7 @@ export const AddTransactionModal = ({
                     style={{ width: "100%" }}
                     placeholder="🟩 BUY  / 🟥 SELL "
                     defaultValue={transactionType}
+                    value={transactionType}
                     onChange={(type) => setTransactionType(type)}
                     allowClear
                   >
@@ -147,6 +169,7 @@ export const AddTransactionModal = ({
                   <DatePicker
                     style={{ width: "100%" }}
                     defaultValue={dayjs()}
+                    value={date}
                     onChange={(date) => setDate(date || dayjs())}
                   />
                 </Form.Item>
@@ -165,6 +188,8 @@ export const AddTransactionModal = ({
                       </>
                     }
                     onChange={(id) => setWalletId(id)}
+                    disabled={defaultWalletId !== null}
+                    value={defaultWalletId || walletId}
                     allowClear
                   >
                     {wallets
@@ -177,6 +202,34 @@ export const AddTransactionModal = ({
                         </Option>
                       ))}
                   </Select>
+                </Form.Item>
+              </Row>
+              <Row justify={"space-between"} wrap>
+                <Form.Item
+                  label="Maybe a different Coin's price?"
+                  style={{ width: "48%" }}
+                >
+                  <Checkbox
+                    style={{ width: "100%" }}
+                    checked={isCustomPrice}
+                    onChange={(e) => setIsCustomPrice(e.target.checked)}
+                  >
+                    Use custom price
+                  </Checkbox>
+                </Form.Item>
+                <Form.Item
+                  label="Custom price"
+                  style={{ width: "48%", opacity: isCustomPrice ? 1 : 0.6 }}
+                >
+                  <InputNumber
+                    disabled={!isCustomPrice}
+                    style={{ width: "100%" }}
+                    placeholder="Enter custom price (USD)"
+                    prefix="$"
+                    min={0}
+                    value={customPrice}
+                    onChange={(customPrice) => setCustomPrice(customPrice || 0)}
+                  />
                 </Form.Item>
               </Row>
             </Form>
@@ -198,7 +251,9 @@ export const AddTransactionModal = ({
                     borderRadius: 5,
                   }}
                 >
-                  {getUsd(amount * Number(coin.priceUsd))}
+                  {getUsd(
+                    amount * Number(isCustomPrice ? customPrice : coin.priceUsd)
+                  )}
                 </Typography>
               </Flex>
             </Row>

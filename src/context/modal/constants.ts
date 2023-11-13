@@ -1,0 +1,4 @@
+export enum ModalType {
+  ADD_TRANSACTION = "ADD_TRANSACTION",
+  ADD_WALLET = "ADD_WALLET",
+}

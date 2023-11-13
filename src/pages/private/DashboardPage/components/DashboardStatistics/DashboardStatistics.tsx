@@ -3,11 +3,11 @@ import { Flex, Spin, Statistic } from "antd";
 import { statisticsConfig } from "./config";
 
 export type DashboardStatisticsProps = {
-  marketTotal: Object | null;
+  data: Object | null;
 };
 
 export const DashboardStatistics = (props: DashboardStatisticsProps) => {
-  const { marketTotal } = props;
+  const { data: marketTotal } = props;
 
   return (
     <Flex

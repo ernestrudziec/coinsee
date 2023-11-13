@@ -1,28 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { ExtraWalletData } from "../../../../../../types/entities";
-import CountUp from "react-countup";
-import { valueType } from "antd/es/statistic/utils";
 import { MouseEventHandler } from "react";
-import { Card, Empty, Flex, Statistic, Tooltip, Typography } from "antd";
-import {
-  EyeOutlined,
-  DeleteOutlined,
-  WalletFilled,
-  ArrowDownOutlined,
-  ArrowUpOutlined,
-} from "@ant-design/icons";
-
-const formatterPercentage = (value: valueType) => (
-  <>
-    <CountUp
-      useEasing
-      preserveValue
-      end={Number(value)}
-      decimals={2}
-      separator=","
-    />
-  </>
-);
+import { Card, Empty, Flex, Tooltip, Typography } from "antd";
+import { EyeOutlined, DeleteOutlined, WalletFilled } from "@ant-design/icons";
+import { WalletStatistics } from "../../../../../../components/common/wallet/WalletStatistics";
 
 type WalletTileProps = {
   wallet: ExtraWalletData;
@@ -33,8 +14,28 @@ type WalletTileProps = {
 export const WalletTile = (props: WalletTileProps) => {
   const { onWalletDeleteClick, onWalletViewClick, wallet } = props;
 
-  const isProfitable = wallet.total.profit.percentage > 0;
   const isWalletEmpty = wallet.total.amountUsd.now === 0;
+
+  const actions = [
+    <Tooltip title="Delete wallet">
+      <DeleteOutlined
+        key="delete"
+        onClick={onWalletDeleteClick as MouseEventHandler<HTMLSpanElement>}
+      />
+    </Tooltip>,
+  ];
+
+  if (!isWalletEmpty)
+    actions.unshift(
+      <Tooltip title="View wallet details">
+        <EyeOutlined
+          key="view"
+          onClick={
+            onWalletViewClick as MouseEventHandler<HTMLSpanElement> | undefined
+          }
+        />
+      </Tooltip>
+    );
 
   return (
     <Card
@@ -45,24 +46,7 @@ export const WalletTile = (props: WalletTileProps) => {
         marginRight: 20,
         marginBottom: 20,
       }}
-      actions={[
-        <Tooltip title="View portfolio">
-          <EyeOutlined
-            key="view"
-            onClick={
-              onWalletViewClick as
-                | MouseEventHandler<HTMLSpanElement>
-                | undefined
-            }
-          />
-        </Tooltip>,
-        <Tooltip title="Delete portfolio">
-          <DeleteOutlined
-            key="delete"
-            onClick={onWalletDeleteClick as MouseEventHandler<HTMLSpanElement>}
-          />
-        </Tooltip>,
-      ]}
+      actions={actions}
     >
       <Flex
         style={{
@@ -76,26 +60,7 @@ export const WalletTile = (props: WalletTileProps) => {
 
       {!isWalletEmpty ? (
         <Flex justify="flex-start" align="flex-start" style={{ marginTop: 10 }}>
-          <Statistic
-            title="Total amount (USD)"
-            value={wallet.total.amountUsd.now}
-            precision={2}
-            prefix="$"
-            valueStyle={{ fontSize: 22 }}
-            style={{ marginRight: 20 }}
-          />
-          <Statistic
-            title={isProfitable ? "Profit" : "Loss"}
-            value={wallet.total.profit.percentage}
-            precision={2}
-            valueStyle={{
-              color: isProfitable ? "#3f8600" : "#cf1322",
-              fontSize: 22,
-            }}
-            prefix={isProfitable ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
-            suffix="%"
-            formatter={formatterPercentage}
-          />
+          <WalletStatistics data={wallet.total} />
         </Flex>
       ) : (
         <Empty

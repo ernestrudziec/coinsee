@@ -1,6 +1,6 @@
+ 
 import { Button, Flex, Spin, Statistic, Typography } from "antd";
-import { useCallback, useState } from "react";
-import { CreateWalletModal } from "../../../../components/common/modals/CreateWalletModal";
+import { useCallback } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { usePortfolio } from "../../../../hooks/api/usePortfolio/usePortfolio";
 import { WalletTile } from "./components/WalletTile";
@@ -9,18 +9,27 @@ import { useAuth } from "../../../../context/auth/hooks/useAuth";
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
 import { PrivateRoutePath } from "../../../../router/routes";
+import { useModal } from "../../../../context/modal/hooks/useModal";
+import { ModalType } from "../../../../context/modal/constants";
 
 export const Wallets = () => {
-  const [isCreateWalletModalOpen, setIsCreateWalletModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
   const { wallets, isLoading, refetch, total } = usePortfolio();
   const isPortfolioProfitable = total.profit.amountUsd > 0;
 
-  const navigate = useNavigate();
-  const { currentUser } = useAuth();
+  const { handleOpenModal } = useModal({
+    onModalAction: (params) => {
+      const shouldRefetch = !!params?.action?.refetchPortfolio;
+
+      if (shouldRefetch && params?.action?.type === ModalType.ADD_WALLET)
+        refetch();
+    },
+  });
 
   const handleCreateWalletClick = () => {
-    setIsCreateWalletModalOpen(true);
+    handleOpenModal({ type: ModalType.ADD_WALLET });
   };
 
   const handleDeleteWalletClick = useCallback(
@@ -38,16 +47,6 @@ export const Wallets = () => {
     [navigate]
   );
 
-  const handleCreateWalletModalClose = ({
-    refetch: shouldRefetch,
-  }: {
-    refetch: boolean;
-  }) => {
-    setIsCreateWalletModalOpen(false);
-
-    shouldRefetch && refetch();
-  };
-
   if (isLoading)
     return (
       <Flex
@@ -62,41 +61,44 @@ export const Wallets = () => {
 
   return (
     <>
-      <CreateWalletModal
-        isOpen={isCreateWalletModalOpen}
-        onClose={handleCreateWalletModalClose}
-      />
-      <Flex style={{ padding: 20 }} wrap="wrap">
-        <Statistic
-          title="Total estimate (USD)"
-          value={total.amountUsd}
-          prefix="$"
-          precision={2}
-          valueStyle={{ fontSize: 26, fontWeight: 600 }}
-        />
-        <Statistic
-          style={{ marginLeft: 40 }}
-          title="Total profit (USD)"
-          value={total.profit.amountUsd}
-          prefix="$"
-          precision={2}
-          valueStyle={{ fontSize: 26, fontWeight: 600 }}
-        />
-        <Statistic
-          title={isPortfolioProfitable ? "Profit" : "Loss"}
-          value={total.profit.percentage}
-          precision={2}
-          valueStyle={{
-            color: isPortfolioProfitable ? "#3f8600" : "#cf1322",
-            fontSize: 26,
-          }}
-          prefix={
-            isPortfolioProfitable ? <ArrowUpOutlined /> : <ArrowDownOutlined />
-          }
-          style={{ marginLeft: 40 }}
-          suffix="%"
-        />
-      </Flex>
+      {wallets?.length > 0 && (
+        <Flex style={{ padding: 20 }} wrap="wrap">
+          <Statistic
+            title="Total estimate (USD)"
+            value={total.amountUsd}
+            prefix="$"
+            precision={2}
+            valueStyle={{ fontSize: 26, fontWeight: 600 }}
+          />
+          <Statistic
+            style={{ marginLeft: 40 }}
+            title="Total profit (USD)"
+            value={total.profit.amountUsd}
+            prefix="$"
+            precision={2}
+            valueStyle={{ fontSize: 26, fontWeight: 600 }}
+          />
+          <Statistic
+            title={isPortfolioProfitable ? "Profit" : "Loss"}
+            value={total.profit.percentage}
+            precision={2}
+            valueStyle={{
+              color: isPortfolioProfitable ? "#3f8600" : "#cf1322",
+              fontSize: 26,
+            }}
+            prefix={
+              isPortfolioProfitable ? (
+                <ArrowUpOutlined />
+              ) : (
+                <ArrowDownOutlined />
+              )
+            }
+            style={{ marginLeft: 40 }}
+            suffix="%"
+          />
+        </Flex>
+      )}
+
       <Flex vertical style={{ padding: 20, minHeight: "calc(100vh - 178px)" }}>
         <Typography style={{ fontSize: 24, fontWeight: 700 }}>
           Wallets

@@ -9,6 +9,14 @@ import { SignUpPage } from "../pages/public/auth-pages/SignUpPage";
 import { LandingPage } from "../pages/public/guest/LandingPage/LandingPage";
 import { ErrorPage } from "../pages/public/misc/ErrorPage";
 
+import {
+  RadarChartOutlined,
+  DashboardOutlined,
+  SettingOutlined,
+  UserOutlined,
+  WalletFilled,
+} from "@ant-design/icons";
+
 export enum RouterPrivacy {
   PRIVATE = "private",
   PUBLIC = "public",
@@ -37,7 +45,12 @@ export const privateRoutes = [
     privacy: RouterPrivacy.PRIVATE,
     path: PrivateRoutePath.DASHBOARD,
     element: DashboardPage,
-    title: "Dashboard",
+    title: (
+      <>
+        <DashboardOutlined style={{ marginRight: 10 }} />
+        Dashboard
+      </>
+    ),
     key: "dashboard",
     allowRedirect: true,
   },
@@ -45,7 +58,12 @@ export const privateRoutes = [
     privacy: RouterPrivacy.PRIVATE,
     path: PrivateRoutePath.MY_PROFILE,
     element: MyProfilePage,
-    title: "My profile",
+    title: (
+      <>
+        <UserOutlined style={{ marginRight: 10 }} />
+        My profile
+      </>
+    ),
     key: "my-profile",
     allowRedirect: true,
   },
@@ -53,7 +71,12 @@ export const privateRoutes = [
     privacy: RouterPrivacy.PRIVATE,
     path: PrivateRoutePath.PORTFOLIO,
     element: PortfolioPage,
-    title: "Portfolio",
+    title: (
+      <>
+        <RadarChartOutlined style={{ marginRight: 10 }} />
+        Portfolio
+      </>
+    ),
     key: "portfolio",
     allowRedirect: true,
   },
@@ -61,7 +84,12 @@ export const privateRoutes = [
     privacy: RouterPrivacy.PRIVATE,
     path: PrivateRoutePath.WALLET + "/:walletId",
     element: WalletPage,
-    title: "Wallet",
+    title: (
+      <>
+        <WalletFilled style={{ marginRight: 10 }} />
+        Wallet details
+      </>
+    ),
     key: "wallet",
     allowRedirect: true,
   },
@@ -69,7 +97,12 @@ export const privateRoutes = [
     privacy: RouterPrivacy.PRIVATE,
     path: PrivateRoutePath.SETTINGS,
     element: SettingsPage,
-    title: "Settings",
+    title: (
+      <>
+        <SettingOutlined style={{ marginRight: 10 }} />
+        Settings
+      </>
+    ),
     key: "settings",
     allowRedirect: true,
   },

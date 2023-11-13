@@ -1,4 +1,3 @@
- 
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../../context/auth/hooks/useAuth";
 import { walletApi } from "../../../firebase/api/wallet/walletApi";
@@ -10,6 +9,7 @@ import {
 } from "../../../types/entities";
 import { useQuery } from "@apollo/client";
 import { GET_COINS } from "../../../graphql/queries";
+
 import {
   getAllUniqueCoinsInTransactions,
   getSanitizedCurrentCoinsData,

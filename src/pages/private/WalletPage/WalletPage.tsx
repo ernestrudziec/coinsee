@@ -1,8 +1,15 @@
 import { useNavigate, useParams } from "react-router";
-import { useEffect } from "react";
 import { usePortfolio } from "../../../hooks/api/usePortfolio";
-import { Button, Empty, Flex, Spin, Table, Typography } from "antd";
-import { ArrowLeftOutlined, WalletFilled } from "@ant-design/icons";
+import { Button, Empty, Flex, Spin, Typography } from "antd";
+import {
+  ArrowLeftOutlined,
+  WalletOutlined,
+  AreaChartOutlined,
+  ShoppingCartOutlined,
+} from "@ant-design/icons";
+import { AssetsTable } from "./components/AssetsTable/AssetsTable";
+import { TransactionsTable } from "./components/TransactionsTable";
+import { WalletStatistics } from "../../../components/common/wallet/WalletStatistics";
 
 export const WalletPage = () => {
   const params = useParams();
@@ -12,10 +19,6 @@ export const WalletPage = () => {
 
   const walletId = params?.walletId || null;
   const wallet = getWalletById({ walletId });
-
-  useEffect(() => {
-    console.log({ wallet });
-  }, [wallet]);
 
   if (isLoading)
     return (
@@ -31,6 +34,9 @@ export const WalletPage = () => {
 
   if (walletId === null || wallet === undefined) return <Empty />;
 
+  const assets = wallet?.assets;
+  const transactions = wallet?.transactions;
+
   return (
     <Flex vertical style={{ padding: 20 }}>
       <Button
@@ -40,14 +46,32 @@ export const WalletPage = () => {
         <ArrowLeftOutlined />
         Go back to wallets
       </Button>
-      <Flex vertical style={{ minHeight: "calc(100vh - 178px)" }}>
+      <Flex vertical>
         <Typography style={{ fontSize: 24, fontWeight: 700 }}>
-          <WalletFilled style={{ marginRight: 5, marginLeft: 5 }} />{" "}
+          <WalletOutlined style={{ marginRight: 5, marginLeft: 5 }} />{" "}
           {wallet.name}
         </Typography>
+        <Flex style={{ margin: "30px 0" }}>
+          {wallet?.total && <WalletStatistics data={wallet?.total} extended />}
+        </Flex>
       </Flex>
-      <Flex>
-        <Table />
+      <Flex vertical>
+        <Typography style={{ fontSize: 26, fontWeight: 600, marginBottom: 20 }}>
+          <AreaChartOutlined style={{ marginRight: 5 }} />
+          Assets
+        </Typography>
+        <AssetsTable data={assets} walletId={wallet.id} />
+        <Typography
+          style={{
+            fontSize: 26,
+            fontWeight: 600,
+            marginBottom: 20,
+            marginTop: 20,
+          }}
+        >
+          <ShoppingCartOutlined style={{ marginRight: 5 }} /> Transactions
+        </Typography>
+        <TransactionsTable data={transactions} />
       </Flex>
     </Flex>
   );
