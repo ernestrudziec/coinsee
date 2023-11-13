@@ -9,7 +9,7 @@
 ![image](https://github.com/ernestrudziec/coinsee/assets/58563491/114972b3-6c61-4b2b-ae1c-6506b5369fb1)
 
 ## Login
-![image](https://github.com/ernestrudziec/coinsee/assets/58563491/f40b4c70-4426-45e9-918a-34234d91bd67)
+![image](https://github.com/ernestrudziec/coinsee/assets/58563491/1a84c019-4aee-4910-baed-a11e0128ead9)
 
 ## Register
 ![image](https://github.com/ernestrudziec/coinsee/assets/58563491/84d05272-0292-4489-b7e1-35487023eaac)
