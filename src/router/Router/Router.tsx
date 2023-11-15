@@ -1,6 +1,6 @@
 import { Routes, Route, Outlet } from "react-router";
 
-import { Layout } from "../../components/Layout";
+import { Layout } from "../../common/components/Layout";
 import { ErrorPage } from "../../pages/public/misc/ErrorPage";
 import { PrivateRoute } from "../components/PrivateRoute";
 import { RouterPrivacy } from "../routes";

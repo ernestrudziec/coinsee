@@ -4,12 +4,15 @@ import { DashboardTable } from "./components/DashboardTable";
 import { getColumns } from "./components/DashboardTable/columns";
 import { useQuery } from "@apollo/client";
 
-import { SORTING_STATE, SORTING_DIR } from "../../../constants/constants";
-import { useBreakpoint } from "../../../hooks/misc/useBreakpoint";
-import { useSort } from "../../../hooks/misc/useSort";
-import { CoinData } from "../../../types/entities";
+import {
+  SORTING_STATE,
+  SORTING_DIR,
+} from "../../../common/constants/constants";
+import { useBreakpoint } from "../../../common/hooks/misc/useBreakpoint";
+import { useSort } from "../../../common/hooks/misc/useSort";
+import { CoinData } from "../../../common/types/entities";
 import { DashboardStatistics } from "./components/DashboardStatistics";
-import { GET_COINS } from "../../../graphql/queries";
+import { GET_COINS } from "../../../database/graphql/queries";
 import { useModal } from "../../../context/modal/hooks/useModal";
 import { ModalType } from "../../../context/modal/constants";
 

@@ -1,4 +1,3 @@
- 
 import { useEffect } from "react";
 import { Button } from "antd";
 
@@ -7,7 +6,7 @@ import { useAuth } from "../../../../context/auth/hooks/useAuth";
 import { PublicRoutePath } from "../../../../router/routes";
 
 import "./LogOutPage.styles.scss";
-import { Logo } from "../../../../components/common/brand/Logo";
+import { Logo } from "../../../../common/components/common/brand/Logo";
 
 export const LogOutPage = () => {
   const {

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
- 
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 import {
   CurrentModal,
   HandleOpenModalParams,
@@ -12,12 +12,8 @@ interface ModalProviderProps {
   onModalAction?: (params: { action: any }) => void;
 }
 
-export const ModalProvider = ({
-  children,
-  onModalAction,
-}: ModalProviderProps) => {
+export const ModalProvider = ({ children }: ModalProviderProps) => {
   const [currentModal, setCurrentModal] = useState<CurrentModal>(null);
-  const [modalAction, setModalAction] = useState<any>(null);
 
   const handleOpenModal = (params: HandleOpenModalParams) => {
     setCurrentModal({ type: params.type, data: params?.data });
@@ -25,24 +21,11 @@ export const ModalProvider = ({
 
   const handleCloseModal = () => {
     setCurrentModal(null);
-    setModalAction(null);
   };
-
-  const handleModalAction = (params: any) => {
-    setModalAction(params);
-  };
-
-  useEffect(() => {
-    if (modalAction && onModalAction) {
-      onModalAction({ action: modalAction });
-    }
-  }, [modalAction, onModalAction]);
 
   const value = {
     handleOpenModal,
     handleCloseModal,
-    handleModalAction,
-    modalAction,
     currentModal,
   };
 

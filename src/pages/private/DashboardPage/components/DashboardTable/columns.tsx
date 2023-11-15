@@ -1,11 +1,10 @@
- 
 import type { ColumnsType } from "antd/es/table";
 import currency from "currency.js";
 import { Flex, Tooltip, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { ChangeCell } from "../../../../../components/common/cells/ChangeCell";
-import { IconCell } from "../../../../../components/common/cells/IconCell";
-import { CoinData } from "../../../../../types/entities";
+import { ChangeCell } from "../../../../../common/components/common/cells/ChangeCell";
+import { IconCell } from "../../../../../common/components/common/cells/IconCell";
+import { CoinData } from "../../../../../common/types/entities";
 
 export type GetColumnsParams = {
   isMobile: boolean;
