@@ -1,43 +1,35 @@
- 
 import { Button, Flex, Spin, Statistic, Typography } from "antd";
 import { useCallback } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import { usePortfolio } from "../../../../hooks/api/usePortfolio/usePortfolio";
 import { WalletTile } from "./components/WalletTile";
-import { walletApi } from "../../../../firebase/api/wallet/walletApi";
-import { useAuth } from "../../../../context/auth/hooks/useAuth";
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
 import { PrivateRoutePath } from "../../../../router/routes";
 import { useModal } from "../../../../context/modal/hooks/useModal";
 import { ModalType } from "../../../../context/modal/constants";
+import { usePortfolio } from "../../../../context/portfolio/hooks/usePortfolio";
 
 export const Wallets = () => {
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
 
-  const { wallets, isLoading, refetch, total } = usePortfolio();
+  const {
+    wallets: { data: wallets },
+    general: { isLoading, total },
+  } = usePortfolio();
+
   const isPortfolioProfitable = total.profit.amountUsd > 0;
 
-  const { handleOpenModal } = useModal({
-    onModalAction: (params) => {
-      const shouldRefetch = !!params?.action?.refetchPortfolio;
-
-      if (shouldRefetch && params?.action?.type === ModalType.ADD_WALLET)
-        refetch();
-    },
-  });
+  const { handleOpenModal } = useModal();
 
   const handleCreateWalletClick = () => {
     handleOpenModal({ type: ModalType.ADD_WALLET });
   };
 
   const handleDeleteWalletClick = useCallback(
-    async ({ userId, walletId }: { userId: string; walletId: string }) => {
-      await walletApi.delete({ uid: userId, walletId });
-      refetch();
+    async ({ walletId }: { walletId: string }) => {
+      handleOpenModal({ type: ModalType.DELETE_WALLET, data: { walletId } });
     },
-    [refetch]
+    [handleOpenModal]
   );
 
   const handleViewWalletClick = useCallback(
@@ -117,7 +109,6 @@ export const Wallets = () => {
               wallet={wallet}
               onWalletDeleteClick={() =>
                 handleDeleteWalletClick({
-                  userId: currentUser.uid,
                   walletId: wallet.id,
                 })
               }

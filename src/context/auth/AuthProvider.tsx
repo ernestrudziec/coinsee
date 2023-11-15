@@ -9,11 +9,11 @@ import {
   signOut,
 } from "firebase/auth";
 
-import { auth } from "../../firebase/setup";
+import { auth } from "../../database/firebase/setup";
 import { AuthContext } from "./AuthContext";
 import { RequestStatus } from "./constants";
 import { useUserState } from "./hooks/useUserState";
-import { userApi } from "../../firebase/api/user/userApi";
+import { userApi } from "../../database/firebase/api/user/userApi";
 
 interface AuthProviderProps {
   children: React.ReactNode;

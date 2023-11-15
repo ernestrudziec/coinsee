@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { ExtraWalletData } from "../../../../../../types/entities";
+import { ExtraWalletData } from "../../../../../../common/types/entities";
 import { MouseEventHandler } from "react";
 import { Card, Empty, Flex, Tooltip, Typography } from "antd";
 import { EyeOutlined, DeleteOutlined, WalletFilled } from "@ant-design/icons";
-import { WalletStatistics } from "../../../../../../components/common/wallet/WalletStatistics";
+import { WalletStatistics } from "../../../../../../common/components/common/wallet/WalletStatistics";
 
 type WalletTileProps = {
   wallet: ExtraWalletData;

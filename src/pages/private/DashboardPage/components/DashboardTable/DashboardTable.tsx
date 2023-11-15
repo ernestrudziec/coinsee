@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Flex, Table } from "antd";
 
-import { CoinData } from "../../../../../types/entities";
+import { CoinData } from "../../../../../common/types/entities";
 import { ColumnsType } from "antd/es/table";
 
 export type DashboardTableProps = {

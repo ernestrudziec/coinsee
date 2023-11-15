@@ -1,4 +1,3 @@
- 
 import { useEffect } from "react";
 import { Button, Checkbox, Form, Input } from "antd";
 import { useNavigate } from "react-router";
@@ -9,7 +8,7 @@ import { RequestStatus } from "../../../../context/auth/constants";
 import { PrivateRoutePath } from "../../../../router/routes";
 
 import "./LogInPage.styles.scss";
-import { Logo } from "../../../../components/common/brand/Logo";
+import { Logo } from "../../../../common/components/common/brand/Logo";
 
 export const LogInPage = () => {
   const {

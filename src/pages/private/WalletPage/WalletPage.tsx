@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router";
-import { usePortfolio } from "../../../hooks/api/usePortfolio";
+
 import { Button, Empty, Flex, Spin, Typography } from "antd";
 import {
   ArrowLeftOutlined,
@@ -9,13 +9,17 @@ import {
 } from "@ant-design/icons";
 import { AssetsTable } from "./components/AssetsTable/AssetsTable";
 import { TransactionsTable } from "./components/TransactionsTable";
-import { WalletStatistics } from "../../../components/common/wallet/WalletStatistics";
+import { WalletStatistics } from "../../../common/components/common/wallet/WalletStatistics";
+import { usePortfolio } from "../../../context/portfolio/hooks/usePortfolio";
 
 export const WalletPage = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const { isLoading, getWalletById } = usePortfolio();
+  const {
+    general: { isLoading },
+    wallets: { getWalletById },
+  } = usePortfolio();
 
   const walletId = params?.walletId || null;
   const wallet = getWalletById({ walletId });
@@ -71,7 +75,7 @@ export const WalletPage = () => {
         >
           <ShoppingCartOutlined style={{ marginRight: 5 }} /> Transactions
         </Typography>
-        <TransactionsTable data={transactions} />
+        <TransactionsTable data={transactions} walletId={wallet.id} />
       </Flex>
     </Flex>
   );

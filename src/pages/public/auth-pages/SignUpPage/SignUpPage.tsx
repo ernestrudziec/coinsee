@@ -5,7 +5,7 @@ import "./SignUpPage.styles.scss";
 import { useAuth } from "../../../../context/auth/hooks/useAuth";
 import { RequestStatus } from "../../../../context/auth/constants";
 import { PrivateRoutePath } from "../../../../router/routes";
-import { Logo } from "../../../../components/common/brand/Logo";
+import { Logo } from "../../../../common/components/common/brand/Logo";
 
 export const SignUpPage = () => {
   const {
