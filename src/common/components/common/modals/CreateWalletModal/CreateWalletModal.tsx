@@ -16,7 +16,7 @@ export type CreateWalletModalProps = BaseModalProps;
 export const CreateWalletModal = (props: CreateWalletModalProps) => {
   const { isOpen } = props;
 
-  const [walletName, setWalletName] = useState<string | null>(null);
+  const [walletName, setWalletName] = useState<string | null>("");
 
   const { currentUser } = useAuth();
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export const CreateWalletModal = (props: CreateWalletModalProps) => {
   };
 
   const handleClose = () => {
-    setWalletName(null);
+    setWalletName("");
     handleCloseModal();
   };
 
@@ -50,8 +50,9 @@ export const CreateWalletModal = (props: CreateWalletModalProps) => {
         centered
         open={isOpen}
         onOk={handleOk}
-        onCancel={() => handleClose()}
+        onCancel={handleClose}
         okText="Submit"
+        destroyOnClose
         okButtonProps={{ disabled: !walletName }}
       >
         {
@@ -73,6 +74,8 @@ export const CreateWalletModal = (props: CreateWalletModalProps) => {
                 >
                   <Input
                     name={"walletName"}
+                    value={walletName || ""}
+                    defaultValue={""}
                     placeholder="Please provide your new wallet name"
                     onChange={(e) => setWalletName(e.target.value)}
                   />

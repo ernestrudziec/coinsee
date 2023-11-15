@@ -53,7 +53,7 @@ export const WalletStatistics = (props: WalletStatisticsProps) => {
             value={total.profit.percentage}
             precision={2}
             valueStyle={{
-              color: isProfitable ? Colors.GREEN : Colors.GREEN,
+              color: isProfitable ? Colors.GREEN : Colors.RED,
               fontSize: 22,
             }}
             prefix={isProfitable ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
