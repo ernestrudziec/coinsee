@@ -13,7 +13,7 @@ export const LandingPage = () => {
             <source src={backgroundVideo} type="video/mp4" />
           </video>
         </div>
-        <Logo color="black" width={200} style={{ marginBottom: 30 }} />
+        <Logo color="black" width={150} style={{ marginBottom: 30 }} />
         <h2>
           Track and <span style={{ color: "#1677ff" }}>Analyze </span>
           Your&nbsp;Cryptocurrency Portfolio
@@ -23,6 +23,7 @@ export const LandingPage = () => {
           portfolio, and make informed investment decisions.
         </p>
         <div>
+          <div></div>
           <Button type="primary" size="large" href={PublicRoutePath.SIGN_UP}>
             Get started
           </Button>

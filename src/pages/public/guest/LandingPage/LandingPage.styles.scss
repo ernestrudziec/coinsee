@@ -21,10 +21,18 @@
 
   h2 {
     max-width: 800px;
+
+    @media (max-width: 800px) {
+      font-size: 8vw !important;
+    }
   }
   p {
     max-width: 600px;
     color: rgba(38, 38, 38, 0.7);
+
+    @media (max-width: 800px) {
+      font-size: 3.5vw !important;
+    }
   }
 
   h1 {
