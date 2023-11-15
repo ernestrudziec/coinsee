@@ -11,7 +11,7 @@ import {
   Select,
   Typography,
 } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IconCell } from "../../cells/IconCell";
 import dayjs from "dayjs";
 import { getUsd } from "../../../../../utils/formatters";

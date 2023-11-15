@@ -3,7 +3,6 @@ import React from "react";
 import {
   RadarChartOutlined,
   DashboardOutlined,
-  SettingOutlined,
   UserOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
