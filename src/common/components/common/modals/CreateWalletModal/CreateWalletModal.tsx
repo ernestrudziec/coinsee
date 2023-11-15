@@ -39,7 +39,6 @@ export const CreateWalletModal = (props: CreateWalletModalProps) => {
   };
 
   const handleClose = () => {
-    refetch();
     setWalletName(null);
     handleCloseModal();
   };
