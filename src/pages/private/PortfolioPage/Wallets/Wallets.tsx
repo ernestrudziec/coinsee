@@ -8,6 +8,7 @@ import { PrivateRoutePath } from "../../../../router/routes";
 import { useModal } from "../../../../context/modal/hooks/useModal";
 import { ModalType } from "../../../../context/modal/constants";
 import { usePortfolio } from "../../../../context/portfolio/hooks/usePortfolio";
+import { Colors } from "../../../../common/constants/colors";
 
 export const Wallets = () => {
   const navigate = useNavigate();
@@ -38,6 +39,10 @@ export const Wallets = () => {
     },
     [navigate]
   );
+
+  const handleAddTransactionToWalletClick = useCallback(async () => {
+    navigate(PrivateRoutePath.DASHBOARD);
+  }, [navigate]);
 
   if (isLoading)
     return (
@@ -70,24 +75,26 @@ export const Wallets = () => {
             precision={2}
             valueStyle={{ fontSize: 26, fontWeight: 600 }}
           />
-          <Statistic
-            title={isPortfolioProfitable ? "Profit" : "Loss"}
-            value={total.profit.percentage}
-            precision={2}
-            valueStyle={{
-              color: isPortfolioProfitable ? "#3f8600" : "#cf1322",
-              fontSize: 26,
-            }}
-            prefix={
-              isPortfolioProfitable ? (
-                <ArrowUpOutlined />
-              ) : (
-                <ArrowDownOutlined />
-              )
-            }
-            style={{ marginLeft: 40 }}
-            suffix="%"
-          />
+          {!Number.isNaN(total.profit.percentage) ? (
+            <Statistic
+              title={isPortfolioProfitable ? "Profit" : "Loss"}
+              value={total.profit.percentage}
+              precision={2}
+              valueStyle={{
+                color: isPortfolioProfitable ? Colors.GREEN : Colors.RED,
+                fontSize: 26,
+              }}
+              prefix={
+                isPortfolioProfitable ? (
+                  <ArrowUpOutlined />
+                ) : (
+                  <ArrowDownOutlined />
+                )
+              }
+              style={{ marginLeft: 40 }}
+              suffix="%"
+            />
+          ) : null}
         </Flex>
       )}
 
@@ -115,6 +122,7 @@ export const Wallets = () => {
               onWalletViewClick={() =>
                 handleViewWalletClick({ walletId: wallet.id })
               }
+              onWalletAddClick={() => handleAddTransactionToWalletClick()}
             />
           ))}
         </Flex>

@@ -29,15 +29,7 @@ export const menuConfig = [
     )),
     label: "Portfolio",
   },
-  {
-    key: "settings",
-    icon: React.createElement(() => (
-      <Link to={PrivateRoutePath.SETTINGS}>
-        <SettingOutlined style={{ marginRight: 10 }} />
-      </Link>
-    )),
-    label: "Settings",
-  },
+
   {
     key: "my-profile",
     icon: React.createElement(() => (

@@ -3,6 +3,7 @@ import {
   WalletData,
   TransactionData,
   CoinData,
+  TransactionType,
 } from "../../../common/types/entities";
 import { getAllUniqueCoinsInTransactions } from "../utils";
 
@@ -17,10 +18,15 @@ export const getTransformedSingleWalletData = ({
 }) => {
   const walletTransactions = transactions;
 
-  const thenTotalAmountUsd = walletTransactions.reduce(
-    (acc, transaction) => acc + transaction.amountUsd,
-    0
-  );
+  const thenTotalAmountUsd = walletTransactions.reduce((acc, transaction) => {
+    const { amountUsd, type } = transaction;
+
+    if (type === TransactionType.BUY) {
+      return acc + amountUsd;
+    } else {
+      return acc - amountUsd;
+    }
+  }, 0);
 
   const nowTotalAmountUsd = walletTransactions?.reduce(
     (acc: number, transaction: any) => {
@@ -28,8 +34,15 @@ export const getTransformedSingleWalletData = ({
         (coin: CoinData) => coin.id === transaction.coinId
       );
 
-      if (currentCoin) {
-        return acc + Number(currentCoin.priceUsd) * Number(transaction.amount);
+      const type = transaction.type;
+
+      const amountUsd =
+        Number(currentCoin?.priceUsd) * Number(transaction.amount);
+
+      if (type === TransactionType.BUY) {
+        return acc + amountUsd;
+      } else if (type === TransactionType.SELL) {
+        return acc - amountUsd;
       }
 
       return acc;
@@ -53,8 +66,14 @@ export const getTransformedSingleWalletData = ({
 
     const thenAmountUsd = walletTransactions?.reduce(
       (acc: number, transaction) => {
+        const { type, amountUsd } = transaction;
+
         if (transaction.coinId === coinId) {
-          return acc + transaction.amountUsd;
+          if (type === TransactionType.BUY) {
+            return acc + amountUsd;
+          } else {
+            return acc - amountUsd;
+          }
         }
 
         return acc;
@@ -64,8 +83,14 @@ export const getTransformedSingleWalletData = ({
 
     const coinAmount = walletTransactions?.reduce(
       (acc: number, transaction) => {
+        const amount = Number(transaction.amount);
+
         if (transaction.coinId === coinId) {
-          return acc + Number(transaction.amount);
+          if (transaction.type === TransactionType.BUY) {
+            return acc + amount;
+          } else {
+            return acc - amount;
+          }
         }
 
         return acc;

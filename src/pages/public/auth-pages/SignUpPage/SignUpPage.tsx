@@ -1,4 +1,4 @@
-import { Button, Form, Input, Result } from "antd";
+import { Alert, Button, Form, Input, Result } from "antd";
 import backgroundVideo from "../../../../assets/background.mp4";
 
 import "./SignUpPage.styles.scss";
@@ -95,9 +95,8 @@ export const SignUpPage = () => {
                     Create account
                   </Button>
                 </Form.Item>
-
-                <Form.ErrorList errors={[error]} className="error-list" />
               </Form>
+              {error && <Alert type="error" message={error} />}
             </div>
           </>
         )}

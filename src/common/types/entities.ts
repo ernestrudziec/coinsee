@@ -80,6 +80,7 @@ export type CreatedAt = {
 
 export type WalletTotal = {
   transactions: number;
+  assets: number;
   amountUsd: TotalAmountUsd;
   profit: Profit;
 };

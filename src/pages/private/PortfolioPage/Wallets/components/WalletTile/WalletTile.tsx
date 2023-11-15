@@ -2,21 +2,36 @@
 import { ExtraWalletData } from "../../../../../../common/types/entities";
 import { MouseEventHandler } from "react";
 import { Card, Empty, Flex, Tooltip, Typography } from "antd";
-import { EyeOutlined, DeleteOutlined, WalletFilled } from "@ant-design/icons";
+import {
+  PlusOutlined,
+  DeleteOutlined,
+  WalletFilled,
+  EyeOutlined,
+} from "@ant-design/icons";
 import { WalletStatistics } from "../../../../../../common/components/common/wallet/WalletStatistics";
 
 type WalletTileProps = {
   wallet: ExtraWalletData;
   onWalletDeleteClick?: Function;
   onWalletViewClick?: Function;
+  onWalletAddClick?: Function;
 };
 
 export const WalletTile = (props: WalletTileProps) => {
-  const { onWalletDeleteClick, onWalletViewClick, wallet } = props;
+  const { onWalletDeleteClick, onWalletViewClick, onWalletAddClick, wallet } =
+    props;
 
   const isWalletEmpty = wallet.total.amountUsd.now === 0;
 
   const actions = [
+    <Tooltip title="Add transaction">
+      <PlusOutlined
+        key="add"
+        onClick={
+          onWalletAddClick as MouseEventHandler<HTMLSpanElement> | undefined
+        }
+      />
+    </Tooltip>,
     <Tooltip title="Delete wallet">
       <DeleteOutlined
         key="delete"
@@ -25,9 +40,9 @@ export const WalletTile = (props: WalletTileProps) => {
     </Tooltip>,
   ];
 
-  if (!isWalletEmpty)
-    actions.unshift(
-      <Tooltip title="View wallet details">
+  if (!isWalletEmpty) {
+    actions.push(
+      <Tooltip title="View wallet">
         <EyeOutlined
           key="view"
           onClick={
@@ -36,6 +51,7 @@ export const WalletTile = (props: WalletTileProps) => {
         />
       </Tooltip>
     );
+  }
 
   return (
     <Card

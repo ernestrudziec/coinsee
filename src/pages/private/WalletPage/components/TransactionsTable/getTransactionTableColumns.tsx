@@ -6,6 +6,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { IconCell } from "../../../../../common/components/common/cells/IconCell";
 import { TransactionType } from "../../../../../common/types/entities";
 import { TransactionTableRow } from "./types";
+import { Colors } from "../../../../../common/constants/colors";
 
 export type GetTransactionsTableParams = {
   isMobile: boolean;
@@ -80,12 +81,16 @@ export const getTransactionsTableColumns = ({
       title: "Amount",
       dataIndex: "amount",
       key: "amount",
-      render: (amount) =>
-        currency(amount, {
-          separator: ",",
-          precision: 6,
-          symbol: "",
-        }).format(),
+      render: (amount, transaction) => {
+        return (
+          (transaction.type === TransactionType.SELL ? "-" : "+") +
+          currency(amount, {
+            separator: ",",
+            precision: 6,
+            symbol: "",
+          }).format()
+        );
+      },
       sortDirections: ["ascend", "descend"],
       sorter: (a, b) => a.amount - b.amount,
       width: 100,
@@ -97,10 +102,15 @@ export const getTransactionsTableColumns = ({
       render: (amountUsd, transaction) => (
         <span
           style={{
-            color: transaction.type === TransactionType.SELL ? "red" : "green",
+            width: "100%",
+            height: "100%",
+            color:
+              transaction.type === TransactionType.SELL
+                ? Colors.RED
+                : Colors.GREEN,
           }}
         >
-          {(transaction.type === TransactionType.SELL ? "- " : "") +
+          {(transaction.type === TransactionType.SELL ? "-" : "+") +
             currency(amountUsd, { separator: "," }).format()}
         </span>
       ),

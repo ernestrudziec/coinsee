@@ -5,6 +5,7 @@ import { AddTransactionModal } from "../AddTransactionModal";
 import { CreateWalletModal } from "../CreateWalletModal";
 import { DeleteTransactionModal } from "../DeleteTransactionModal";
 import { DeleteWalletModal } from "../DeleteWalletModal";
+import { DeleteAccountModal } from "../DeleteAccountModal";
 
 const modals = [
   {
@@ -22,6 +23,10 @@ const modals = [
   {
     type: ModalType.DELETE_WALLET,
     component: DeleteWalletModal,
+  },
+  {
+    type: ModalType.DELETE_ACCOUNT,
+    component: DeleteAccountModal,
   },
 ];
 

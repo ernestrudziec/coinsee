@@ -91,14 +91,20 @@ export const getAssetsTableColumns = ({
       dataIndex: "changePercent24Hr",
       key: "changePercent24Hr",
       width: 50,
-      render: (changePercent24Hr) => (
-        <ChangeCell changePercent24Hr={changePercent24Hr} />
+      render: (_, coin) => (
+        <ChangeCell
+          changePercent24Hr={
+            ((coin.totalAmountUsdNow - coin.totalAmountUsdThen) /
+              coin.totalAmountUsdThen) *
+            100
+          }
+        />
       ),
       sortDirections: ["descend", "ascend"],
       sorter: (a, b) => a.changePercent24Hr - b.changePercent24Hr,
     },
     {
-      title: "All-time profit",
+      title: "Total",
       dataIndex: "totalAmountUsdNow",
       key: "totalAmountUsdNow",
       render: (priceUsd) => currency(priceUsd, { separator: "," }).format(),

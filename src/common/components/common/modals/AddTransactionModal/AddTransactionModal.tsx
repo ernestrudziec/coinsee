@@ -11,7 +11,7 @@ import {
   Select,
   Typography,
 } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconCell } from "../../cells/IconCell";
 import dayjs from "dayjs";
 import { getUsd } from "../../../../../utils/formatters";
@@ -20,7 +20,6 @@ import { ChangeCell } from "../../cells/ChangeCell";
 import { useNavigate } from "react-router";
 import { PrivateRoutePath } from "../../../../../router/routes";
 import { WalletOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
 import { transactionApi } from "../../../../../database/firebase/api/transaction/transactionApi";
 import { CoinData, TransactionType } from "../../../../types/entities";
 import { BaseModalProps } from "../types";
@@ -71,7 +70,7 @@ export const AddTransactionModal = (props: AddTransactionModalProps) => {
   };
 
   const handleOk = async () => {
-    if (coin !== null && walletId !== null) {
+    if (coin !== null && (walletId !== null || defaultWalletId !== null)) {
       if (isCustomPrice && customPrice !== null) {
         coin.priceUsd = String(customPrice);
       }
@@ -80,7 +79,7 @@ export const AddTransactionModal = (props: AddTransactionModalProps) => {
         type: transactionType,
         uid: currentUser.uid,
         coin,
-        walletId,
+        walletId: walletId || defaultWalletId,
         amount,
         transactionDate: new Date(date.toISOString()),
       });
@@ -102,7 +101,12 @@ export const AddTransactionModal = (props: AddTransactionModalProps) => {
         onCancel={handleClose}
         okText="Add transaction"
         okButtonProps={{
-          disabled: !(amount && date && walletId && transactionType),
+          disabled: !(
+            amount &&
+            date &&
+            (walletId || defaultWalletId) &&
+            transactionType
+          ),
         }}
       >
         {!wallets?.length ? (
@@ -110,12 +114,17 @@ export const AddTransactionModal = (props: AddTransactionModalProps) => {
             <Typography style={{ marginBottom: 16 }}>
               No wallet connected with your account.
             </Typography>
-            <Link to={PrivateRoutePath.PORTFOLIO}>
-              <Button type="primary">
-                <WalletOutlined />
-                Create new wallet
-              </Button>
-            </Link>
+
+            <Button
+              type="primary"
+              onClick={() => {
+                handleCloseModal();
+                navigate(PrivateRoutePath.PORTFOLIO);
+              }}
+            >
+              <WalletOutlined />
+              Create new wallet
+            </Button>
           </>
         ) : null}
         {wallets?.length && coin ? (

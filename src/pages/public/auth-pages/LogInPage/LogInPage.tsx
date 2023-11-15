@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Button, Checkbox, Form, Input } from "antd";
+import { Alert, Button, Checkbox, Form, Input } from "antd";
 import { useNavigate } from "react-router";
 
 import backgroundVideo from "../../../../assets/background.mp4";
@@ -92,6 +92,7 @@ export const LogInPage = () => {
               </Button>
             </Form.Item>
           </Form>
+          {error && <Alert type="error" message={error} />}
         </div>
       </header>
     </div>

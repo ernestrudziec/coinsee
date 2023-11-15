@@ -11,7 +11,7 @@ export const getPortfolioTotal = ({
   );
 
   const portfolioTotalProfit = wallets.reduce(
-    (acc, wallet) => acc + wallet.total.profit.amountUsd,
+    (acc, asset) => acc + asset.total.profit.amountUsd,
     0
   );
 
